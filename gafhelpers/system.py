@@ -8,6 +8,9 @@ import os
 import grp
 import pwd
 
+def get_username():
+    return pwd.getpwuid(os.getuid()).pw_name
+
 def is_root():
     return os.getuid() is 0
 

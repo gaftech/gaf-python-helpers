@@ -5,7 +5,7 @@ import urlparse
 
 def build_url(*args, **kwargs):
     """
-    function build_url(netloc[, path_part1[, ...]][, scheme='http'][, query=''][, fragment=''][, trailing_slash=''][, port=None])  
+    function build_url(netloc[, path_part1[, ...]][, scheme='http'][, query=''][, fragment=''][, trailing_slash=''][, port=None][, username=None[, password=None]])  
     
     >>> build_url('www.example.com', 'part1/', 'part2/part3', 'part4.html')
     'http://www.example.com/part1/part2/part3/part4.html'
@@ -16,6 +16,13 @@ def build_url(*args, **kwargs):
     if port:
         assert ':' not in netloc
         netloc = '%s:%s' % (netloc, port)
+    username = kwargs.get("username", None)
+    if username:
+        userinfos = username
+        password = kwargs.get("passwrod", None)
+        if password:
+            userinfos = "%s:%s" % (userinfos, password)
+        netloc = "%s@%s" % (userinfos, netloc)
     parts = args[1:]
     scheme = kwargs.get('scheme', 'http')
     query = kwargs.get('query', '')
